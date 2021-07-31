@@ -27,7 +27,7 @@ class HomeController extends Controller
     {
         $categories = Categories::all();
         $transactions = Transaction::orderBy('created_at', 'DESC')->paginate('10');
-        $tran = Transaction::all();
+        $tran = Transaction::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC')->get();//all();
         return view('home', ['categories' => $categories, 'transactions' => $transactions, 'tran' =>$tran]);
     }
 

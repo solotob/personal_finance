@@ -16,6 +16,7 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('category');
             $table->string('name');
             $table->string('amount');
@@ -23,6 +24,10 @@ class CreateTransactionsTable extends Migration
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories')
+                ->cascadeOnUpdate()->cascadeOnDelete();
+
+
+            $table->foreign('user_id')->references('id')->on('users')
                 ->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
