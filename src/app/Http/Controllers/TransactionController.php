@@ -43,7 +43,7 @@ class TransactionController extends Controller
         ]);
         $cate = Categories::find($request->category_id);
         Transaction::create(['user_id' => auth()->user()->id, 'name' => $request->name, 'amount' => $request->amount,
-            'category_id' => $request->category_id, 'category' => $cate->name, 'description' => $request->description ]);
+            'category_id' => $request->category_id, 'category' => $cate->name, 'type' => $cate->type, 'description' => $request->description ]);
         return back()->with('success', 'Transaction successful');
 
     }
