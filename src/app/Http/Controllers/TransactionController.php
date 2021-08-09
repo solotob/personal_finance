@@ -37,12 +37,13 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request);
         $this->validate($request, [
             'amount' => 'required|numeric',
             'name' => 'required|string',
         ]);
         $cate = Categories::find($request->category_id);
-        Transaction::create(['user_id' => auth()->user()->id, 'name' => $request->name, 'amount' => $request->amount,
+        Transaction::create(['user_id' => auth()->user()->id, 'transaction_date' => $request->transaction_date, 'name' => $request->name, 'amount' => $request->amount,
             'category_id' => $request->category_id, 'category' => $cate->name, 'type' => $cate->type, 'description' => $request->description ]);
         return back()->with('success', 'Transaction successful');
 

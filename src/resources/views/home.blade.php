@@ -71,7 +71,13 @@
                                     <tr class="text-info">
                                     @endif
 {{--                                    <th scope="row">{{$i++}}</th>--}}
-                                    <td>{{\Carbon\Carbon::parse($cate->created_at)->format('d-m-y h:i  a')}}</td>
+                                    <td>
+                                        @if($cate->transaction_date == "")
+                                            {{\Carbon\Carbon::parse($cate->created_at)->format('d, M Y @ h:i  a')}}
+                                            @else
+                                        {{\Carbon\Carbon::parse($cate->transaction_date)->format('d, M Y @ h:i  a')}}
+                                            @endif
+                                    </td>
                                     <td>{{$cate->name}}</td>
                                     <td>&#8358; {{number_format($cate->amount)}}</td>
                                     <td>{{$cate->category}}</td>
@@ -102,13 +108,15 @@
                 <div class="card-body">
                     <form method="POST" action="{{ url('transaction') }}">
                         @csrf
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Name</label>
-                            <input type="text" name="name" class="form-control" id="recipient-name">
-                        </div>
+
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Amount</label>
-                            <input type="text" name="amount" class="form-control" id="recipient-name">
+                            <input type="text" name="amount" class="form-control" id="recipient-name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Name</label>
+                            <input type="text" name="name" class="form-control" id="recipient-name" required>
                         </div>
 
                         <div class="form-group">
@@ -119,6 +127,11 @@
                                 <option value="{{$cate->id}}">{{$cate->name}}</option>
                                     @endforeach
                             </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Pick Date</label>
+                            <input type="datetime-local" name="transaction_date" class="form-control" id="recipient-name" required>
                         </div>
 
                         <div class="form-group">
